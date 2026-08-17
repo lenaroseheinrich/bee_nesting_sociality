@@ -1,8 +1,8 @@
 # Bee nesting strategy, sociality, and climate
 
-This repository contains the R scripts used to curate data and conduct comparative analyses of bee nesting strategy, sociality, geographic distributions, climatic niches, and trait evolution.
+This repository contains the R scripts used to curate data and conduct analyses for the manuscript "Sociality and nesting strategy shape the bimodal diversity gradient in bees".
 
-The analyses combine species-level sociality and nesting traits with a bee phylogeny, occurrence records, and climatic data. The workflow includes trait and occurrence-data curation, geographic and climatic niche analyses, phylogenetic comparative analyses, ancestral-state reconstruction, tests of correlated trait evolution, and models of evolutionary climatic optima.
+These analyses use a bee phylogeny from Henríquez-Piskulich et al. (2024), curated occurrence records from Dorey et al. (2023), bioclimatic data from CHELSA (Karger et al. 2017), and a new dataset of bee sociality and nesting traits to investigate ecological and evolutionary relationships among sociality, nesting strategy, and climate.
 
 ---
 
@@ -68,3 +68,11 @@ Summarizes and compares fitted hOUwie models, retrieves parameter estimates, and
 ### `11_ASR_tree.R`
 
 Generates the circular phylogenetic visualization of the ancestral-state reconstruction, combining reconstructed evolutionary states, observed tip states, a temporal axis, and family-level annotations.
+
+---
+## References
+Dorey, J. B., E. E. Fischer, P. R. Chesshire, A. Nava-Bolaños, R. L. O’Reilly, S. Bossert, S. M. Collins, E. M. Lichtenberg, E. M. Tucker, A. Smith-Pardo, A. Falcon-Brindis, D. A. Guevara, B. Ribeiro, D. de Pedro, J. Pickering, K.-L. J. Hung, K. A. Parys, L. M. McCabe, M. S. Rogan, R. L. Minckley, S. J. E. Velazco, T. Griswold, T. A. Zarrillo, W. Jetz, Y. V. Sica, M. C. Orr, L. M. Guzman, J. S. Ascher, A. C. Hughes, and N. S. Cobb. (2023). A globally synthesised and flagged bee occurrence dataset and cleaning workflow. Scientific Data 10: 747. https://doi.org/10.1016/j.ympev.2023.107963. 
+
+Henríquez-Piskulich, P., A. F. Hugall, and D. Stuart-Fox. (2024). A supermatrix phylogeny of the world’s bees (Hymenoptera: Anthophila). Molecular Phylogenetics and Evolution 190: 107963. https://doi.org/10.1016/j.ympev.2023.107963
+
+Karger, D. N., O. Conrad, J. Böhner, T. Kawohl, H. Kreft, R. W. Soria-Auza, N. E. Zimmermann, H. P. Linder, and M. Kessler. (2017). Climatologies at high resolution for the earth’s land surface areas. Scientific Data 4(1): 170122. https://doi.org/10.1038/sdata.2017.122
