@@ -7,6 +7,10 @@
 # ==============================================================================
 # Setup
 #-------------------------------------------------------------------------------
+
+# Note to self: Aug 31 run is AFTER re-downloading fixed corHMM; previous runs used a buggy version of corHMM
+# Aug 31 run is the one to use in publication.
+
 rm(list = ls())
 
 repo_dir <- "/home/lenarh/repos/bee_nesting_sociality"
@@ -23,7 +27,7 @@ library(igraph)
 library(ggraph)
 library(tidygraph)
 library(scales)
-#devtools::install_github("thej022214/corHMM")
+# devtools::install_github("thej022214/corHMM")
 
 # Load utility functions
 source(file.path(repo_dir, "00_utility_functions.R"))
@@ -55,42 +59,43 @@ all(dat$tips == phy$tip.label) # TRUE (meaning tips in dat are in same order as 
 #-------------------------------------------------------------------------------
 # Model selection (run or load corHMMdredge) with root fixed as solitary/ground
 #-------------------------------------------------------------------------------
-# sort(unique(paste(dat$sociality_binary, dat$nest_binary, sep = "_"))) # check which state solitary/ground is for root
-# # [1] "social_aboveground"   "social_ground"
-# # [3] "solitary_aboveground" "solitary_ground"
+sort(unique(paste(dat$sociality_binary, dat$nest_binary, sep = "_"))) # check which state solitary/ground is for root
+# [1] "social_aboveground"   "social_ground"
+# [3] "solitary_aboveground" "solitary_ground"
 
-# # Run model selection with corHMMdredge (if not already done)
-# model_fits <- corHMM::corHMMDredge(
-#   phy,
-#   dat,
-#   max.rate.cat = 2,
-#   root.p = c(0, 0, 0, 1),
-#   n.cores = 8,
-#   nstarts = 5,
-#   use_RTMB = TRUE,
-#   seed = 1234 # set seed for reproducibility
-# )
+# Run model selection with corHMMdredge (if not already done)
+model_fits <- corHMM::corHMMDredge(
+  phy,
+  dat,
+  max.rate.cat = 2,
+  root.p = c(0, 0, 0, 1),
+  n.cores = 8,
+  nstarts = 5,
+  use_RTMB = TRUE,
+  seed = 1234 # set seed for reproducibility
+)
 
-# save(
-#   model_fits,
-#   file = file.path(results_dir, "corHMM_dredge_binary_Aug4.Rsave")
-# )
+save(
+  model_fits,
+  file = file.path(results_dir, "corHMM_dredge_binary_Aug31.Rsave")
+)
 
-load(file.path(results_dir, "corhmm_dredge_binary_june8.Rsave"))
+# load(file.path(results_dir, corHMM_dredge_binary_Aug31.Rsave"))
 
 # Make model comparison table
-# corhmm_model_comparison <- corHMM:::getModelTable(model_fits)
-# Make model comparison table
-corhmm_model_comparison <- corHMM:::getModelTable(dredge_sociality)
+corhmm_model_comparison <- corHMM:::getModelTable(model_fits)
 
-# write.csv(
-#   corhmm_model_comparison,
-#   file = file.path(results_dir, "corHMM_tbl_dredge_Aug4.csv")
-# )
+# # Make model comparison table
+# corhmm_model_comparison <- corHMM:::getModelTable(dredge_sociality)
+
 write.csv(
   corhmm_model_comparison,
-  file = file.path(results_dir, "corHMM_tbl_dredge_Aug5.csv")
+  file = file.path(results_dir, "corHMM_tbl_dredge_Aug31.csv")
 )
+# write.csv(
+#   corhmm_model_comparison,
+#   file = file.path(results_dir, "corHMM_tbl_dredge_Aug5.csv")
+# )
 
 corhmm_model_comparison
 
@@ -109,21 +114,21 @@ corhmm_model_comparison
 # -500.87   1019.735
 
 # Extract the transition rate matrix from the best model
-# rates_mat <- model_fits[[which.min(corHMM:::getModelTable(model_fits)$AIC)]]
-rates_mat <- dredge_sociality[[which.min(
-  corHMM:::getModelTable(dredge_sociality)$AIC
-)]]
+rates_mat <- model_fits[[which.min(corHMM:::getModelTable(model_fits)$AIC)]]
+# rates_mat <- dredge_sociality[[which.min(
+#   corHMM:::getModelTable(dredge_sociality)$AIC
+# )]]
 
-# write.csv(
-#   rates_mat$solution,
-#   file = file.path(results_dir, "corHMM_transition_rates_Aug4.csv"),
-#   row.names = TRUE
-# )
 write.csv(
   rates_mat$solution,
-  file = file.path(results_dir, "corHMM_transition_rates_Aug5.csv"),
+  file = file.path(results_dir, "corHMM_transition_rates_Aug31.csv"),
   row.names = TRUE
 )
+# write.csv(
+#   rates_mat$solution,
+#   file = file.path(results_dir, "corHMM_transition_rates_Aug5.csv"),
+#   row.names = TRUE
+# )
 
 rates_mat
 
@@ -213,9 +218,6 @@ plotRECON <- function(
   ...
 ) {
   if (is.null(piecolors)) {
-    #piecolors=c("pink","black","red","yellow","forestgreen","blue","coral","aquamarine")
-    # piecolors=c("#851170FF", "#040404FF", "#F36E35FF", "#FFFE9EFF",
-    #             "#851170FF", "#040404FF", "#F36E35FF", "#FFFE9EFF")
     piecolors <- rev(c(
       "#00204DFF",
       "#575C6DFF",
@@ -255,26 +257,26 @@ plotRECON <- function(
 # Plot ancestral state reconstruction
 #-------------------------------------------------------------------------------
 # Extract likelihoods for internal nodes from best model
-# mod_table <- corHMM:::getModelTable(model_fits)
-# best_fit <- model_fits[[which.min(mod_table$dAIC)]]
-# index_matrix <- best_fit$index.mat
-# save(
-#   index_matrix,
-#   file = file.path(
-#     results_dir,
-#     "corHMM_dredge_binary_best_fit_index_matrix_Aug4.Rsave"
-#   )
-# )
-mod_table <- corHMM:::getModelTable(dredge_sociality)
-best_fit <- dredge_sociality[[which.min(mod_table$dAIC)]]
+mod_table <- corHMM:::getModelTable(model_fits)
+best_fit <- model_fits[[which.min(mod_table$dAIC)]]
 index_matrix <- best_fit$index.mat
 save(
   index_matrix,
   file = file.path(
     results_dir,
-    "corHMM_dredge_binary_best_fit_index_matrix_Aug5.Rsave"
+    "corHMM_dredge_binary_best_fit_index_matrix_Aug31.Rsave"
   )
 )
+# mod_table <- corHMM:::getModelTable(dredge_sociality)
+# best_fit <- dredge_sociality[[which.min(mod_table$dAIC)]]
+# index_matrix <- best_fit$index.mat
+# save(
+#   index_matrix,
+#   file = file.path(
+#     results_dir,
+#     "corHMM_dredge_binary_best_fit_index_matrix_Aug5.Rsave"
+#   )
+# )
 
 p <- corHMM:::MatrixToPars(best_fit)
 anc_recon <- ancRECON(

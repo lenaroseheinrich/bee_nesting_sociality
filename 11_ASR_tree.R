@@ -9,7 +9,7 @@
 rm(list = ls())
 
 data_dir <- "/home/lenarh/data/bee_nesting_sociality"
-results_dir <- file.path(data_dir, "results", "Phylogeny")
+results_dir <- file.path(data_dir, "results", "phylogeny")
 dir.create(results_dir, recursive = TRUE, showWarnings = FALSE)
 
 library(ape)
@@ -66,14 +66,17 @@ load(
     data_dir,
     "results",
     "corHMM",
-    "corhmm_dredge_binary_june8.Rsave"
+    # "corhmm_dredge_binary_june8.Rsave"
+    "corHMM_dredge_binary_Aug31.Rsave"
   )
 )
 
 # Find the best-supported model
-mod_table <- corHMM:::getModelTable(dredge_sociality)
+# mod_table <- corHMM:::getModelTable(dredge_sociality)
+mod_table <- corHMM:::getModelTable(model_fits)
 best_model_number <- which.min(mod_table$AIC)
-best_fit <- dredge_sociality[[best_model_number]]
+# best_fit <- dredge_sociality[[best_model_number]]
+best_fit <- model_fits[[best_model_number]]
 
 message(
   "Using model ",
@@ -267,7 +270,7 @@ add_time_axis_radial <- function(
 # Plot
 # ------------------------------------------------------------------------------
 pdf(
-  file.path(results_dir, "ASR_phylogeny_labeled_intervals_Aug5.pdf"),
+  file.path(results_dir, "ASR_phylogeny_labeled_intervals_Aug31.pdf"),
   width = 8,
   height = 8
 )

@@ -52,27 +52,19 @@ dat <- dat[, c("tips", "sociality_binary", "nest_binary")]
 #-------------------------------------------------------------------------------
 # Load corHMM dredge results
 #-------------------------------------------------------------------------------
-# load(file.path(results_dir, "corHMM_dredge_binary_Aug4.Rsave"))
-load(file.path(results_dir, "corhmm_dredge_binary_june8.Rsave"))
+load(file.path(results_dir, "corHMM_dredge_binary_Aug31.Rsave")) # this object is named model_fits
 
-# model <- model_fits[[35]]$solution # best supported model
-# root.p <- model_fits[[35]]$root.p
-model <- dredge_sociality[[28]]$solution # best supported model
-root.p <- dredge_sociality[[28]]$root.p
+model <- model_fits[[39]]$solution # best supported model
+root.p <- model_fits[[39]]$root.p
 
 corHMM_results <- list(data, model, root.p)
 
-# save(
-#   corHMM_results,
-#   file = file.path(results_dir, "corHMM_dredge_results_for_simmap_Aug4.Rsave")
-# )
 save(
   corHMM_results,
-  file = file.path(results_dir, "corHMM_dredge_results_for_simmap_Aug5.Rsave")
+  file = file.path(results_dir, "corHMM_dredge_results_for_simmap_Aug31.Rsave")
 )
 
-
-# load(file.path(results_dir, "corhmm_dredge_results_for_simmap_june8.Rsave"))
+# load(file.path(results_dir, "corHMM_dredge_results_for_simmap_Aug31.Rsave"))
 
 #-------------------------------------------------------------------------------
 # Generate SIMMAPs
@@ -87,22 +79,15 @@ simmaps <- makeSimmap(
   root.p = root.p
 )
 
-# save(simmaps, file = file.path(results_dir, "simmaps_Aug4.Rsave"))
-save(simmaps, file = file.path(results_dir, "simmaps_Aug5.Rsave"))
+save(simmaps, file = file.path(results_dir, "simmaps_Aug31.Rsave"))
 
 #-------------------------------------------------------------------------------
 # Load previously generated SIMMAPs
 #-------------------------------------------------------------------------------
-# load(
-#   file.path(
-#     results_dir,
-#     "simmaps_Aug4.Rsave"
-#   )
-# )
 load(
   file.path(
     results_dir,
-    "simmaps_Aug5.Rsave"
+    "simmaps_Aug31.Rsave"
   )
 )
 
@@ -114,25 +99,14 @@ summary_df <- summarize_transition_stats(simmap_summaries)
 
 print(summary_df)
 
-# write.csv(
-#   summary_df,
-#   file = file.path(results_dir, "corHMM_transitions_summary_Aug4.csv"),
-#   row.names = FALSE
-# )
 write.csv(
   summary_df,
-  file = file.path(results_dir, "corHMM_transitions_summary_Aug5.csv"),
+  file = file.path(results_dir, "corHMM_transitions_summary_Aug31.csv"),
   row.names = FALSE
 )
 
-# Export as PDF
-# pdf(
-#   file.path(results_dir, "corHMM_transition_summary_Aug4.pdf"),
-#   width = 15,
-#   height = 8
-# )
 pdf(
-  file.path(results_dir, "corHMM_transition_summary_Aug5.pdf"),
+  file.path(results_dir, "corHMM_transition_summary_Aug31.pdf"),
   width = 15,
   height = 8
 )
