@@ -72,10 +72,13 @@ Generates the circular phylogenetic visualization of the ancestral-state reconst
 ---
 ## References
 **Cleaned bee occurrence data:**
+
 Dorey, J. B., E. E. Fischer, P. R. Chesshire, A. Nava-Bolaños, R. L. O’Reilly, S. Bossert, S. M. Collins, E. M. Lichtenberg, E. M. Tucker, A. Smith-Pardo, A. Falcon-Brindis, D. A. Guevara, B. Ribeiro, D. de Pedro, J. Pickering, K.-L. J. Hung, K. A. Parys, L. M. McCabe, M. S. Rogan, R. L. Minckley, S. J. E. Velazco, T. Griswold, T. A. Zarrillo, W. Jetz, Y. V. Sica, M. C. Orr, L. M. Guzman, J. S. Ascher, A. C. Hughes, and N. S. Cobb. (2023). A globally synthesised and flagged bee occurrence dataset and cleaning workflow. Scientific Data 10: 747. https://doi.org/10.1016/j.ympev.2023.107963. 
 
 **Phylogeny:**
+
 Henríquez-Piskulich, P., A. F. Hugall, and D. Stuart-Fox. (2024). A supermatrix phylogeny of the world’s bees (Hymenoptera: Anthophila). Molecular Phylogenetics and Evolution 190: 107963. https://doi.org/10.1016/j.ympev.2023.107963
 
-**Climate layers:**
+**Bioclimatic layers:**
+
 Karger, D. N., O. Conrad, J. Böhner, T. Kawohl, H. Kreft, R. W. Soria-Auza, N. E. Zimmermann, H. P. Linder, and M. Kessler. (2017). Climatologies at high resolution for the earth’s land surface areas. Scientific Data 4(1): 170122. https://doi.org/10.1038/sdata.2017.122
