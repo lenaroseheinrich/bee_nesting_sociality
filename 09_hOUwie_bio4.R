@@ -1,11 +1,15 @@
 # ==============================================================================
 # hOUwie
 # ==============================================================================
-# Fits hOUwie models using temperature seasonality (bio_4) as the continuous trait
+# Fits hOUwie models using temperature seasonality (BIO4) as the continuous trait
 # ==============================================================================
 # Setup
 #-------------------------------------------------------------------------------
 rm(list = ls())
+
+# Define focal climate variable (BIO4)
+focal_var <- "mean_bio_4"
+focal_bio <- "bio_4"
 
 data_dir <- "/home/lenarh/data/bee_nesting_sociality"
 curated_data_dir <- file.path(data_dir, "curated_data")
@@ -95,9 +99,11 @@ merged_traits$mean_bio_12 <- log(merged_traits$mean_bio_12)
 merged_traits$mean_bio_15 <- log(merged_traits$mean_bio_15)
 merged_traits$mean_bio_4 <- log(merged_traits$mean_bio_4)
 
-# Remove incomplete rows
-merged_traits <- subset(merged_traits, !is.nan(merged_traits$mean_bio_1))
-merged_traits <- subset(merged_traits, !is.nan(merged_traits$mean_bio_4))
+# Remove rows with missing/non-finite values for focal climate variable
+merged_traits <- subset(
+  merged_traits,
+  is.finite(merged_traits[[focal_var]])
+)
 
 # Prune phylogeny to match data
 phy <- keep.tip(phy, which(phy$tip.label %in% merged_traits$tips))
@@ -117,7 +123,7 @@ dat <- dat[match(phy$tip.label, dat$tips), ]
 
 # Keep only discrete traits and the focal continuous trait
 # Change the focal continuous trait depending on which you want to analyze
-dat <- dat[, c("tips", "sociality_binary", "nest_binary", "mean_bio_4")]
+dat <- dat[, c("tips", "sociality_binary", "nest_binary", focal_var)]
 
 phy <- keep.tip(phy, dat$tips)
 
@@ -173,15 +179,17 @@ model_list <- list(
   list(2, cid_disc_model, cid_oum_model)
 ) # the 2 is for two rate classes
 
-names(model_list) <- c(
-  "bm1_8states_run_bio_4",
-  "ou1_8states_run_bio_4",
-  "oum_soc_8states_run_bio_4",
-  "oum_nest_8states_run_bio_4",
-  "oum_full_8states_run_bio_4",
-  "oum_cid_8states_run_bio_4"
+names(model_list) <- paste0(
+  c(
+    "bm1_8states_run_",
+    "ou1_8states_run_",
+    "oum_soc_8states_run_",
+    "oum_nest_8states_run_",
+    "oum_full_8states_run_",
+    "oum_cid_8states_run_"
+  ),
+  focal_bio
 )
-
 #-------------------------------------------------------------------------------
 # Wrapper function to run and save each model
 #-------------------------------------------------------------------------------
