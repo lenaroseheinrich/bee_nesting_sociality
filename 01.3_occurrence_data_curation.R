@@ -469,6 +469,19 @@ for (i in seq_along(all_layers)) {
     type = "raw"
   )
 
+  # NOTE:
+  # GetClimateSummStats_custom() checks for climate variables using names like
+  # "bio_1", "bio_4", "bio_5", and "bio_6". However, the CHELSA raster layers used
+  # here are named like "CHELSA_bio01_1981.2010_V.2.1", so that name check does not
+  # match and the intended /10 conversions are not applied.
+  #
+  # So, the saved BIO1 summary statistics remain in CHELSA's stored units
+  # of (for BIO1, for example) Kelvin x 10 (e.g. ~2900 rather than ~290 K or ~17 C).
+  #
+  # If GetClimateSummStats_custom() is fixed in the future to recognize the CHELSA
+  # layer names and apply /10 here, the downstream hOUwie BIO1 conversion must also
+  # be updated to avoid dividing by 10 twice.
+
   # Save one summary file per climate layer
   fwrite(
     summstats,

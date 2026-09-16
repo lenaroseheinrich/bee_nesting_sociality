@@ -376,6 +376,23 @@ ClimateFromPoint_custom <- function(
   return(as.data.frame(result))
 }
 
+# NOTE:
+# GetClimateSummStats_custom() checks for temperature variables using names like
+# "bio_1", "bio_4", "bio_5", and "bio_6". However, the CHELSA raster layers used
+# here are named like "CHELSA_bio01_1981.2010_V.2.1", so that name check does not
+# match and the intended /10 conversion for temperature variables is not applied.
+#
+# As a result, the saved BIO1 summary statistics remain in CHELSA's stored units
+# of Kelvin x 10 (e.g. ~2900 rather than ~290 K or ~17 C).
+#
+# Downstream hOUwie scripts therefore explicitly convert BIO1 with:
+#   log(mean_bio_1 / 10)
+# which converts Kelvin x 10 -> Kelvin -> ln(K).
+#
+# If GetClimateSummStats_custom() is fixed in the future to recognize the CHELSA
+# layer names and apply /10 here, the downstream hOUwie BIO1 conversion must also
+# be updated to avoid dividing by 10 twice.
+
 GetClimateSummStats_custom <- function(points, type = c("raw", "transformed")) {
   tmp_points <- points[, -which(colnames(points) %in% c("lon", "lat"))]
   spp <- unique(tmp_points$species)

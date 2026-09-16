@@ -32,8 +32,6 @@ library(corHMM)
 library(OUwie)
 library(parallel)
 
-source("00_utility_functions.R")
-
 # Reloading traits, tree and climatic data
 traits <- read.csv(
   file.path(curated_data_dir, "bee_traits_clean.csv")
@@ -94,7 +92,8 @@ colnames(merged_traits)[8:11] <- c(
 #-------------------------------------------------------------------------------
 # Log-transform continuous variables
 #-------------------------------------------------------------------------------
-merged_traits$mean_bio_1 <- log((merged_traits$mean_bio_1) + 273) # convert °C to Kelvin for temp
+merged_traits$mean_bio_1 <- log(merged_traits$mean_bio_1 / 10) # convert °C to Kelvin for temp
+# raw climate summary values for bio1 are in Kelvin * 10 so this conversion gets us Kelvin
 merged_traits$mean_bio_12 <- log(merged_traits$mean_bio_12)
 merged_traits$mean_bio_15 <- log(merged_traits$mean_bio_15)
 merged_traits$mean_bio_4 <- log(merged_traits$mean_bio_4)
@@ -122,7 +121,6 @@ phy <- keep.tip(phy, shared_species)
 dat <- dat[match(phy$tip.label, dat$tips), ]
 
 # Keep only discrete traits and the focal continuous trait
-# Change the focal continuous trait depending on which you want to analyze
 dat <- dat[, c("tips", "sociality_binary", "nest_binary", focal_var)]
 
 phy <- keep.tip(phy, dat$tips)
@@ -202,6 +200,7 @@ quickFunc <- function(model_list, model_name) {
     model_list[[3]],
     nSim = 50,
     diagn_msg = TRUE,
+    root.p = "maddfitz",
     # adaptive_sampling = FALSE,
     n_starts = 10,
     ncores = 10

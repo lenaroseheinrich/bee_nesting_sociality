@@ -202,6 +202,7 @@ quickFunc <- function(model_list, model_name) {
     model_list[[3]],
     nSim = 50,
     diagn_msg = TRUE,
+    root.p = "maddfitz",
     # adaptive_sampling = FALSE,
     n_starts = 10,
     ncores = 10
