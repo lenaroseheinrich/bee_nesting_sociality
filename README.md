@@ -67,7 +67,7 @@ Summarizes and compares fitted hOUwie models, retrieves parameter estimates, and
 
 ### `11_ASR_tree.R`
 
-Generates the circular phylogenetic visualization of the ancestral-state reconstruction, combining reconstructed evolutionary states, observed tip states, a temporal axis, and family-level annotations.
+Generates the circular phylogeny showing the ancestral-state reconstruction.
 
 ---
 ## References
